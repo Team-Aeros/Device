@@ -1,4 +1,4 @@
-#include <sys/io.h>
+#include <avr/io.h>
 
 int main()
 {
