@@ -17,4 +17,4 @@ upload:
 	avrdude -v -p m32 -c STK500 -e -P /dev/ttyUSB0 -U flash:w:$(TARGET).hex
 
 clean:
-	rm -f *.o
+	rm -f src/*.o src/*.hex src/*.elf
