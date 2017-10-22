@@ -2,6 +2,6 @@
 #define dev_modules_h
 
 void read_temperature();
-void read_light_level();
+float read_lights();
 
 #endif

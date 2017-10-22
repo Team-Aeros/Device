@@ -1,3 +1,4 @@
+#include <avr/io.h>
 #include "modules.h"
 
 // Return value of temperature sensor in degrees C
@@ -13,5 +14,5 @@ float read_lights()
 	ADCSRA = _BV(ADSC);
 	loop_until_bit_is_clear(ADCSRA, ADSC);
 
-	return (float)ADCW / 1024 * 100;
+	return (float) ADCW / 1024 * 100;
 }
