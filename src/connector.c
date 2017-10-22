@@ -1,3 +1,7 @@
+/**
+ * This file is based on code provided by the Hanze university
+ */
+
 #include <avr/io.h>
 #include <avr/sfr_defs.h>
 #include <stdlib.h>

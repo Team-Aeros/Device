@@ -1,3 +1,7 @@
+/**
+ * This file contains code written by teachers from the Hanze University
+ */
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "scheduler.h"
