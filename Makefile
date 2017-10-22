@@ -1,20 +1,29 @@
 # Based on http://www.puxan.com/web/howto-write-generic-makefiles/
+# Inspired by Thies Keulen's makefile
 TARGET	 	= device
-CC			= avr-gcc
 
 INCLUDES 	=
 LIBRARIES 	=
 SOURCES 	= $(wildcard src/*.c)
-OBJECTS 	= $(SOURCES:.c=.elf)
 
-%.hex: %.elf
-	avr-gcc -W -mmcu=atmega328p -Os $(OBJECTS) -o $(TARGET).elf
-	
-%.hex: %.o
-	avr-objcopy -j .text -j .data -O ihex $(TARGET).elf $(TARGET).hex
-	
-upload:
-	avrdude -v -p m32 -c STK500 -e -P /dev/ttyUSB0 -U flash:w:$(TARGET).hex
+UNAME:=$(shell uname)
+
+ifeq "$(UNAME)" "windows"
+	PORT = COM5
+else
+	PORT = /dev/ttyACM0
+endif
+
+all: compile cpobject upload
+
+compile:
+	avr-gcc -W -mmcu=atmega328p -Os $(SOURCES) -o $(TARGET).elf
+
+cpobject:
+	avr-objcopy -O ihex $(TARGET).elf $(TARGET).hex
+
+upload: $(TARGET).hex
+	avrdude -F -V -c arduino -p atmega328p -P $(PORT) -b 115200 -U flash:w:$(TARGET).hex
 
 clean:
 	rm -f src/*.o src/*.hex src/*.elf
