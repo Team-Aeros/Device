@@ -1,7 +1,10 @@
 #ifndef dev_modules_h
 #define dev_modules_h
 
-void read_temperature();
+float read_temperature();
 float read_lights();
+
+void tempSensor();
+void lightSensor();
 
 #endif
