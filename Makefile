@@ -3,9 +3,7 @@
 TARGET	 	= device
 SOURCES 	= $(wildcard src/*.c)
 
-UNAME:=$(shell uname)
-
-ifeq "$(UNAME)" "windows"
+ifeq "$(OS)" "Windows_NT"
 	PORT = COM5
 else
 	PORT = /dev/ttyACM0
