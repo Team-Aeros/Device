@@ -17,22 +17,22 @@ Task sch_tasks_g[SCH_MAX_TASKS];
 
 void sch_dispatch_tasks(void)
 {
-   // Dispatches (runs) the next task (if one is ready)
-   for (unsigned char index = 0; index < SCH_MAX_TASKS; index++)
-   {
-      if ((sch_tasks_g[index].runme > 0) && (sch_tasks_g[index].pTask != 0))
-      {
-         (*sch_tasks_g[index].pTask)();  // Run the task
-         sch_tasks_g[index].runme--;   // Reset / reduce runme flag
+    // Dispatches (runs) the next task (if one is ready)
+    for (unsigned char index = 0; index < SCH_MAX_TASKS; index++)
+    {
+        if ((sch_tasks_g[index].runme > 0) && (sch_tasks_g[index].pTask != 0))
+        {
+            (*sch_tasks_g[index].pTask)();  // Run the task
+            sch_tasks_g[index].runme--;   // Reset / reduce runme flag
 
-         // Periodic tasks will automatically run again
-         // - if this is a 'one shot' task, remove it from the array
-         if (sch_tasks_g[index].period == 0)
-         {
-            sch_delete_task(index);
-         }
-      }
-   }
+            // Periodic tasks will automatically run again
+            // - if this is a 'one shot' task, remove it from the array
+            if (sch_tasks_g[index].period == 0)
+            {
+                sch_delete_task(index);
+            }
+        }
+    }
 }
 
 /*------------------------------------------------------------------*-
@@ -83,29 +83,29 @@ void sch_dispatch_tasks(void)
 
 unsigned char sch_add_task(void (*pFunction)(), const unsigned int DELAY, const unsigned int PERIOD)
 {
-   unsigned char index = 0;
+    unsigned char index = 0;
 
-   // First find a gap in the array (if there is one)
-   while ((sch_tasks_g[index].pTask != 0) && (index < SCH_MAX_TASKS))
-   {
-      index++;
-   }
+    // First find a gap in the array (if there is one)
+    while ((sch_tasks_g[index].pTask != 0) && (index < SCH_MAX_TASKS))
+    {
+        index++;
+    }
 
-   // Have we reached the end of the list?   
-   if (index == SCH_MAX_TASKS)
-   {
-      // Task list is full, return an error code
-      return SCH_MAX_TASKS;  
-   }
+    // Have we reached the end of the list?   
+    if (index == SCH_MAX_TASKS)
+    {
+        // Task list is full, return an error code
+        return SCH_MAX_TASKS;  
+    }
 
-   // If we're here, there is a space in the task array
-   sch_tasks_g[index].pTask = pFunction;
-   sch_tasks_g[index].delay = DELAY;
-   sch_tasks_g[index].period = PERIOD;
-   sch_tasks_g[index].runme = 0;
+    // If we're here, there is a space in the task array
+    sch_tasks_g[index].pTask = pFunction;
+    sch_tasks_g[index].delay = DELAY;
+    sch_tasks_g[index].period = PERIOD;
+    sch_tasks_g[index].runme = 0;
 
-   // return position of task (to allow later deletion)
-   return index;
+    // return position of task (to allow later deletion)
+    return index;
 }
 
 /*------------------------------------------------------------------*-
@@ -124,15 +124,12 @@ unsigned char sch_add_task(void (*pFunction)(), const unsigned int DELAY, const 
 
 unsigned char sch_delete_task(const unsigned char TASK_INDEX)
 {
-   // Return_code can be used for error reporting, NOT USED HERE THOUGH!
-   unsigned char return_code = 0;
+    sch_tasks_g[TASK_INDEX].pTask = 0;
+    sch_tasks_g[TASK_INDEX].delay = 0;
+    sch_tasks_g[TASK_INDEX].period = 0;
+    sch_tasks_g[TASK_INDEX].runme = 0;
 
-   sch_tasks_g[TASK_INDEX].pTask = 0;
-   sch_tasks_g[TASK_INDEX].delay = 0;
-   sch_tasks_g[TASK_INDEX].period = 0;
-   sch_tasks_g[TASK_INDEX].runme = 0;
-
-   return return_code;
+    return (unsigned char) 0;
 }
 
 /*------------------------------------------------------------------*-
@@ -147,19 +144,17 @@ unsigned char sch_delete_task(const unsigned char TASK_INDEX)
 
 void sch_init_t1(void)
 {
-   unsigned char i;
+    for (unsigned char i = 0; i < SCH_MAX_TASKS; i++)
+    {
+        sch_delete_task(i);
+    }
 
-   for (i = 0; i < SCH_MAX_TASKS; i++)
-   {
-      sch_delete_task(i);
-   }
+    // Set up Timer 1
+    // Values for 1ms and 10ms ticks are provided for various crystals
 
-   // Set up Timer 1
-   // Values for 1ms and 10ms ticks are provided for various crystals
-
-   OCR1A = (uint16_t) 625;                  // 10ms = (256/16.000.000) * 625
-   TCCR1B = (1 << CS12) | (1 << WGM12);     // prescale op 64, top counter = value OCR1A (CTC mode)
-   TIMSK1 = 1 << OCIE1A;                    // Timer 1 Output Compare A Match Interrupt Enable
+    OCR1A = (uint16_t) 625;                  // 10ms = (256/16.000.000) * 625
+    TCCR1B = (1 << CS12) | (1 << WGM12);     // prescale op 64, top counter = value OCR1A (CTC mode)
+    TIMSK1 = 1 << OCIE1A;                    // Timer 1 Output Compare A Match Interrupt Enable
 }
 
 /*------------------------------------------------------------------*-
@@ -177,7 +172,7 @@ void sch_init_t1(void)
 
 void sch_start(void)
 {
-      sei();
+    sei();
 }
 
 /*------------------------------------------------------------------*-
@@ -191,29 +186,28 @@ void sch_start(void)
 
 ISR(TIMER1_COMPA_vect)
 {
-   unsigned char index;
-   for (index = 0; index < SCH_MAX_TASKS; index++)
-   {
-      // Check if there is a task at this location
-      if (sch_tasks_g[index].pTask)
-      {
-         if (sch_tasks_g[index].delay == 0)
-         {
-            // The task is due to run, Inc. the 'RunMe' flag
-            sch_tasks_g[index].runme += 1;
-
-            if (sch_tasks_g[index].period)
+    for (unsigned char index = 0; index < SCH_MAX_TASKS; index++)
+    {
+        // Check if there is a task at this location
+        if (sch_tasks_g[index].pTask)
+        {
+            if (sch_tasks_g[index].delay == 0)
             {
-               // Schedule periodic tasks to run again
-               sch_tasks_g[index].delay = sch_tasks_g[index].period;
-               sch_tasks_g[index].delay -= 1;
+                // The task is due to run, Inc. the 'RunMe' flag
+                sch_tasks_g[index].runme++;
+
+                if (sch_tasks_g[index].period)
+                {
+                    // Schedule periodic tasks to run again
+                    sch_tasks_g[index].delay = sch_tasks_g[index].period;
+                    sch_tasks_g[index].delay--;
+                }
             }
-         }
-         else
-         {
-            // Not yet ready to run: just decrement the delay
-            sch_tasks_g[index].delay -= 1;
-         }
-      }
-   }
+            else
+            {
+                // Not yet ready to run: just decrement the delay
+                sch_tasks_g[index].delay--;
+            }
+        }
+    }
 }
