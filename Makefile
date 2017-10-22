@@ -1,9 +1,6 @@
 # Based on http://www.puxan.com/web/howto-write-generic-makefiles/
 # Inspired by Thies Keulen's makefile
 TARGET	 	= device
-
-INCLUDES 	=
-LIBRARIES 	=
 SOURCES 	= $(wildcard src/*.c)
 
 UNAME:=$(shell uname)
