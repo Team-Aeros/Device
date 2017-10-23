@@ -1,5 +1,8 @@
 #include <avr/io.h>
 #include "modules.h"
+#include "control.h"
+
+volatile int status = 1;
 
 // Return value of temperature sensor in degrees C
 float read_temperature()
@@ -24,12 +27,20 @@ float read_lights()
 
 void lightSensor()
 {
-	if (read_lights() > 20.0)
+	if (read_lights() > 20.0) // Change to user chosen variable
 	{
-		PORTD = 0xff;
+		if (status == 1)
+		{
+			rollDown(0.10);
+			status = 0;
+		}
 	}
 	else
 	{
-		PORTD = 0x00;
+		if (status == 0)
+		{
+			rollUp(0.10);
+			status = 1;
+		}
 	}
 }
