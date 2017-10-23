@@ -16,7 +16,7 @@ typedef enum DataType
     AVERAGE_TEMPERATURE
 } DataType;
 
-void transit(uint8_t type, uint8_t data)
+void transmit(uint8_t type, uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = type + data;

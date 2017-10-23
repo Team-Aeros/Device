@@ -6,12 +6,12 @@
 float read_temperature();
 float read_lights();
 
-void temp_sensor();
-void light_sensor();
-
+void run_light_scan();
 void run_temperature_scan();
 void report_average_temperature();
 void add_temperature_to_average(float temperature);
+
+float get_average_temperature();
 
 float average_temperatures[5];
 
