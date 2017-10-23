@@ -9,10 +9,17 @@
 
 #define UBBRVAL 51
 
-void transit(uint8_t data)
+typedef enum DataType
+{
+    LIGHT_SENSOR,
+    TEMPERATURE_SENSOR,
+    AVERAGE_TEMPERATURE
+} DataType;
+
+void transit(uint8_t type, uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
-    UDR0 = data;
+    UDR0 = type + data;
 }
 
 uint8_t receive()
