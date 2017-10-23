@@ -11,11 +11,6 @@ float read_temperature()
     return 0.0;
 }
 
-void temp_sensor()
-{
-	
-}
-
 // Returns value of light sensor between 0 and 100
 float read_lights()
 {
@@ -26,7 +21,7 @@ float read_lights()
 	return (float)ADCW / 1024 * 100;
 }
 
-void light_sensor()
+void run_light_scan()
 {
 	if (read_lights() > 20.0) // Change to user chosen variable
 	{
@@ -44,15 +39,36 @@ void light_sensor()
 			status = 1;
 		}
 	}
+}
 
+// @todo Merge this function with its counterpart
 void run_temperature_scan()
 {
-    float temp = read_temperature();
+	float temp = read_temperature();
+
+	if (temp > 20.0)
+	{
+		if (status == 1)
+		{
+			roll_down(0.10);
+			status = 0;
+		}
+	}
+	else
+	{
+		if (status == 0)
+		{
+			roll_up(0.10);
+			status = 1;
+		}
+	}
+	
+	add_temperature_to_average(temp);
 }
 
 void report_average_temperature()
 {
-    // transmit data here
+   	//transmit(AVERAGE_TEMPERATURE, get_average_temperature());
 }
 
 void add_temperature_to_average(float temperature)
@@ -63,4 +79,16 @@ void add_temperature_to_average(float temperature)
 	}
 
 	average_temperatures[MAX_TEMPERATURES - 1] = temperature;
+}
+
+float get_average_temperature()
+{
+	float sum = 0;
+
+	for (uint8_t i = 0; i < MAX_TEMPERATURES; i++)
+	{
+		sum += i;
+	}
+
+	return (float) sum / MAX_TEMPERATURES;
 }
