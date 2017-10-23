@@ -4,7 +4,7 @@
 float read_temperature();
 float read_lights();
 
-void tempSensor();
-void lightSensor();
+void temp_sensor();
+void light_sensor();
 
 #endif
