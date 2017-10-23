@@ -10,7 +10,7 @@ float read_temperature()
 
 }
 
-void tempSensor()
+void temp_sensor()
 {
 	
 }
@@ -25,13 +25,13 @@ float read_lights()
 	return (float)ADCW / 1024 * 100;
 }
 
-void lightSensor()
+void light_sensor()
 {
 	if (read_lights() > 20.0) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
-			rollDown(0.10);
+			roll_down(0.10);
 			status = 0;
 		}
 	}
@@ -39,7 +39,7 @@ void lightSensor()
 	{
 		if (status == 0)
 		{
-			rollUp(0.10);
+			roll_up(0.10);
 			status = 1;
 		}
 	}

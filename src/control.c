@@ -5,7 +5,7 @@
 #include "control.h"
 
 // Rolldown to user set variable
-void rollDown(float distance)
+void roll_down(float distance)
 {
 	float rollTime = distance / 0.05;
 	
@@ -22,7 +22,7 @@ void rollDown(float distance)
 }
 
 // Rollup to user set variable
-void rollUp(float distance)
+void roll_up(float distance)
 {
 	float rollTime = distance / 0.05;
 	

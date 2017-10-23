@@ -14,6 +14,6 @@ int main()
 	
 	while(1)
 	{
-		lightSensor();
+		light_sensor();
 	}
 }
