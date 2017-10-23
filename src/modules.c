@@ -1,13 +1,14 @@
 #include <avr/io.h>
 #include "modules.h"
 #include "control.h"
+#include "connector.h"
 
 volatile int status = 1;
 
 // Return value of temperature sensor in degrees C
 float read_temperature()
 {
-
+    return 0.0;
 }
 
 void temp_sensor()
@@ -43,4 +44,13 @@ void light_sensor()
 			status = 1;
 		}
 	}
+
+void run_temperature_scan()
+{
+    float temp = read_temperature();
+}
+
+void report_average_temperature()
+{
+    // transmit data here
 }

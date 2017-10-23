@@ -7,4 +7,7 @@ float read_lights();
 void temp_sensor();
 void light_sensor();
 
+void run_temperature_scan();
+void report_average_temperature();
+
 #endif
