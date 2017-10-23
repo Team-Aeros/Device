@@ -12,8 +12,7 @@ cpobject:
 	avr-objcopy -O ihex $(TARGET).elf $(TARGET).hex
 
 upload: $(TARGET).hex
-	read -p ":: Please enter a port number: " PORT; \
-	avrdude -F -V -c arduino -p atmega328p -P $$PORT -b 115200 -U flash:w:$(TARGET).hex
+	avrdude -F -V -c arduino -p atmega328p -P COM5 -b 115200 -U flash:w:$(TARGET).hex
 
 clean:
 	rm -f src/*.o src/*.hex src/*.elf
