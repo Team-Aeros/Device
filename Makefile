@@ -3,12 +3,6 @@
 TARGET	 	= device
 SOURCES 	= $(wildcard src/*.c)
 
-ifeq "$(OS)" "Windows_NT"
-	PORT = COM5
-else
-	PORT = /dev/ttyACM0
-endif
-
 all: compile cpobject upload
 
 compile:
@@ -18,7 +12,8 @@ cpobject:
 	avr-objcopy -O ihex $(TARGET).elf $(TARGET).hex
 
 upload: $(TARGET).hex
-	avrdude -F -V -c arduino -p atmega328p -P $(PORT) -b 115200 -U flash:w:$(TARGET).hex
+	read -p ":: Please enter a port number: " PORT; \
+	avrdude -F -V -c arduino -p atmega328p -P $$PORT -b 115200 -U flash:w:$(TARGET).hex
 
 clean:
 	rm -f src/*.o src/*.hex src/*.elf
