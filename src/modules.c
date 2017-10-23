@@ -8,7 +8,12 @@ volatile int status = 1;
 // Return value of temperature sensor in degrees C
 float read_temperature()
 {
-    return 0.0;
+	ADMUX |= _BV(MUX0);
+	ADCSRA |= _BV(ADSC);
+
+	loop_until_bit_is_clear(ADCSRA, ADSC);
+
+    return (ADCW - 324.31) / 1.22;
 }
 
 // Returns value of light sensor between 0 and 100
@@ -46,8 +51,13 @@ void run_temperature_scan()
 {
 	float temp = read_temperature();
 
-	if (temp > 20.0)
+	if (temp > 25.0)
 	{
+		// Debug
+		DDRD = 0xFF;
+		PORTD = 0xFF;
+		return;
+
 		if (status == 1)
 		{
 			roll_down(0.10);
@@ -56,6 +66,9 @@ void run_temperature_scan()
 	}
 	else
 	{
+		// Debug
+		return;
+
 		if (status == 0)
 		{
 			roll_up(0.10);

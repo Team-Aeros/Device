@@ -15,7 +15,7 @@ typedef enum Mode
     TEMPERATURE_SENSOR
 } Mode;
 
-const uint8_t SENSOR_MODE = LIGHT_SENSOR;
+const uint8_t SENSOR_MODE = TEMPERATURE_SENSOR;
 
 int main()
 {
