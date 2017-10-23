@@ -9,9 +9,6 @@ const uint8_t MODE = 1;
 
 int main()
 {
-    DDRD = 0xFF;
-    PORTD = 0xFF;
-
     init_connector();
 
     sch_init_t1();
