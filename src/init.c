@@ -12,4 +12,5 @@ void adc_init()
 void port_init()
 {
 	DDRD = 0xff;
+	PORTD |= _BV(PD7);
 }

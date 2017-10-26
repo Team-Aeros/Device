@@ -27,11 +27,14 @@ float read_lights()
 
 void run_light_scan()
 {
-	if (read_lights() > 20.0) // Change to user chosen variable
+	float light = read_lights();
+	add_light_to_average(light);
+	
+	if (get_average_light() > 50.0) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
-			roll_down(0.10);
+			roll_down(2);
 			status = 0;
 		}
 	}
@@ -39,7 +42,7 @@ void run_light_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(0.10);
+			roll_up(2);
 			status = 1;
 		}
 	}
@@ -73,6 +76,11 @@ void report_average_temperature()
    	//transmit(AVERAGE_TEMPERATURE, get_average_temperature());
 }
 
+void report_average_light()
+{
+	//transmit(AVERAGE_LIGHT, get_average_light());
+}
+
 void add_temperature_to_average(float temperature)
 {
 	for (uint8_t i = 1; i < MAX_TEMPERATURES; i++)
@@ -93,4 +101,26 @@ float get_average_temperature()
 	}
 
 	return (float) sum / MAX_TEMPERATURES;
+}
+
+void add_light_to_average(float light)
+{
+	for (uint8_t i = 1; i < MAX_LIGHTS; i++)
+	{
+		average_light[i - 1] = i;
+	}
+
+	average_light[MAX_LIGHTS - 1] = light;
+}
+
+float get_average_light()
+{
+	float sum = 0;
+
+	for (uint8_t i = 0; i < MAX_LIGHTS; i++)
+	{
+		sum += average_light[i];
+	}
+
+	return (float) sum / MAX_LIGHTS;
 }
