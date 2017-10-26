@@ -3,6 +3,8 @@
 TARGET	 	= device
 SOURCES 	= $(wildcard src/*.c)
 
+PORT		= /dev/ttyACM0
+
 all: compile cpobject upload
 
 compile:
@@ -12,7 +14,7 @@ cpobject:
 	avr-objcopy -O ihex $(TARGET).elf $(TARGET).hex
 
 upload: $(TARGET).hex
-	avrdude -F -V -c arduino -p atmega328p -P COM5 -b 115200 -U flash:w:$(TARGET).hex
+	avrdude -F -V -c arduino -p atmega328p -P $(PORT) -b 115200 -U flash:w:$(TARGET).hex
 
 clean:
 	rm -f src/*.o src/*.hex src/*.elf
