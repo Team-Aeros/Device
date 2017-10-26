@@ -3,7 +3,6 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "status.h"
 #include "init.h"
 #include "modules/sensor.h"
 #include "connector.h"
