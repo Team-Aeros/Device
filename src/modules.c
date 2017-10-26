@@ -107,10 +107,10 @@ void add_light_to_average(float light)
 {
 	for (uint8_t i = 1; i < MAX_LIGHTS; i++)
 	{
-		average_temperatures[i - 1] = i;
+		average_light[i - 1] = i;
 	}
 
-	average_temperatures[MAX_LIGHTS - 1] = light;
+	average_light[MAX_LIGHTS - 1] = light;
 }
 
 float get_average_light()
@@ -119,7 +119,7 @@ float get_average_light()
 
 	for (uint8_t i = 0; i < MAX_LIGHTS; i++)
 	{
-		sum += i;
+		sum += average_light[i];
 	}
 
 	return (float) sum / MAX_LIGHTS;

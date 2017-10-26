@@ -18,5 +18,6 @@ float get_average_temperature();
 float get_average_light();
 
 float average_temperatures[5];
+float average_light[5];
 
 #endif
