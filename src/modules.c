@@ -107,7 +107,7 @@ void add_light_to_average(float light)
 {
 	for (uint8_t i = 1; i < MAX_LIGHTS; i++)
 	{
-		average_light[i - 1] = i;
+		average_light[i - 1] = average_light[i];
 	}
 
 	average_light[MAX_LIGHTS - 1] = light;
