@@ -1,7 +1,7 @@
 # Based on http://www.puxan.com/web/howto-write-generic-makefiles/
 # Inspired by Thies Keulen's makefile
 TARGET	 	= device
-SOURCES 	= $(wildcard src/*.c)
+SOURCES 	= $(wildcard src/*.c) $(wildcard src/modules/*.c)
 
 PORT		= /dev/ttyACM0
 
