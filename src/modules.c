@@ -85,7 +85,7 @@ void add_temperature_to_average(float temperature)
 {
 	for (uint8_t i = 1; i < MAX_TEMPERATURES; i++)
 	{
-		average_temperatures[i - 1] = i;
+		average_temperatures[i - 1] = average_temperatures[i];
 	}
 
 	average_temperatures[MAX_TEMPERATURES - 1] = temperature;
@@ -97,7 +97,7 @@ float get_average_temperature()
 
 	for (uint8_t i = 0; i < MAX_TEMPERATURES; i++)
 	{
-		sum += i;
+		sum += average_temperatures[i];
 	}
 
 	return (float) sum / MAX_TEMPERATURES;
