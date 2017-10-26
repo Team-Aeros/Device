@@ -24,9 +24,9 @@ float read_lights()
 void run_light_scan()
 {
 	float light = read_lights();
-	add_light_to_average;
+	add_light_to_average(light);
 	
-	if (light > 50.0) // Change to user chosen variable
+	if (get_average_light() > 50.0) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
