@@ -35,7 +35,7 @@ int main()
         sch_add_task(run_light_scan, 0, 3000);
     }
 
-    sch_add_task(SENSOR_MODE == TEMPERATURE_SENSOR ? report_average_temperature : report_average_temperature, 0, 60);
+    sch_add_task(SENSOR_MODE == TEMPERATURE_SENSOR ? report_average_temperature : report_average_temperature, 0, 6000);
 
     while (1)
     {

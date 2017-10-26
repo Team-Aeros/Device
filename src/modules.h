@@ -2,6 +2,7 @@
 #define dev_modules_h
 
 #define MAX_TEMPERATURES 5
+#define ROLL_SPEED 0.10
 
 float read_temperature();
 float read_lights();

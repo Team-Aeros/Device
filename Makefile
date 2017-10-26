@@ -3,7 +3,7 @@
 TARGET	 	= device
 SOURCES 	= $(wildcard src/*.c)
 
-PORT		= COM5
+PORT		= /dev/ttyACM0
 
 all: compile cpobject upload
 

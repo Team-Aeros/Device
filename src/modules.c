@@ -8,12 +8,11 @@ volatile int status = 1;
 // Return value of temperature sensor in degrees C
 float read_temperature()
 {
-	ADMUX |= _BV(MUX0);
+	ADMUX &= ~_BV(MUX0);
 	ADCSRA |= _BV(ADSC);
-
 	loop_until_bit_is_clear(ADCSRA, ADSC);
-
-    return (ADCW - 324.31) / 1.22;
+  
+	return (float) ((ADCW * 5000 / 1024) - 500) / 10;
 }
 
 // Returns value of light sensor between 0 and 100
@@ -32,7 +31,7 @@ void run_light_scan()
 	{
 		if (status == 1)
 		{
-			roll_down(0.10);
+			roll_down(ROLL_SPEED);
 			status = 0;
 		}
 	}
@@ -40,7 +39,7 @@ void run_light_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(0.10);
+			roll_up(ROLL_SPEED);
 			status = 1;
 		}
 	}
@@ -49,34 +48,24 @@ void run_light_scan()
 // @todo Merge this function with its counterpart
 void run_temperature_scan()
 {
-	float temp = read_temperature();
+	add_temperature_to_average(read_temperature());
 
-	if (temp > 25.0)
+	if (get_average_temperature() > 25.0)
 	{
-		// Debug
-		DDRD = 0xFF;
-		PORTD = 0xFF;
-		return;
-
 		if (status == 1)
 		{
-			roll_down(0.10);
+			roll_down(ROLL_SPEED);
 			status = 0;
 		}
 	}
 	else
 	{
-		// Debug
-		return;
-
 		if (status == 0)
 		{
-			roll_up(0.10);
+			roll_up(ROLL_SPEED);
 			status = 1;
 		}
 	}
-	
-	add_temperature_to_average(temp);
 }
 
 void report_average_temperature()
