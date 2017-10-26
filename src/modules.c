@@ -31,7 +31,7 @@ void run_light_scan()
 	{
 		if (status == 1)
 		{
-			roll_down(ROLL_SPEED);
+			roll_down(0.10);
 			status = 0;
 		}
 	}
@@ -39,7 +39,7 @@ void run_light_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(ROLL_SPEED);
+			roll_up(0.10);
 			status = 1;
 		}
 	}
@@ -54,7 +54,7 @@ void run_temperature_scan()
 	{
 		if (status == 1)
 		{
-			roll_down(ROLL_SPEED);
+			roll_down(0.10);
 			status = 0;
 		}
 	}
@@ -62,7 +62,7 @@ void run_temperature_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(ROLL_SPEED);
+			roll_up(0.10);
 			status = 1;
 		}
 	}
