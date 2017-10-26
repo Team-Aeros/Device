@@ -19,6 +19,8 @@ typedef enum DataType
 void transmit(uint8_t type, uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
+
+    // Won't work, will fix later
     UDR0 = type + data;
 }
 
