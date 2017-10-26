@@ -2,6 +2,7 @@
 #include "sensor.h"
 #include "../control.h"
 #include "../connector.h"
+#include "../settings.h"
 #include "light_sensor.h"
 #include "temp_sensor.h"
 
@@ -9,14 +10,7 @@ volatile int status = 1;
 
 float read_sensor()
 {
-	if (SENSOR_MODE == 0)
-	{
-		return read_light();
-	}
-	else if (SENSOR_MODE == 1)
-	{
-		return read_temp();
-	}
+	return SENSOR_MODE == 0 ? read_light() : read_temp();
 }
 
 void run_sensor_scan()
@@ -24,11 +18,11 @@ void run_sensor_scan()
 	float reading = read_sensor();
 	add_to_average(reading);
 	
-	if (get_average() > 50.0) // Change to user chosen variable
+	if (get_average() > 10.0) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
-			roll_down(2);
+			roll_down(length);
 			status = 0;
 		}
 	}
@@ -36,7 +30,7 @@ void run_sensor_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(2);
+			roll_up(length);
 			status = 1;
 		}
 	}
