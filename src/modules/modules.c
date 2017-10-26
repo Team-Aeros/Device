@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include "modules.h"
 #include "control.h"
-#include "connector.h"
+#include "../connector.h"
 
 volatile int status = 1;
 

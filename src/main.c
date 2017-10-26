@@ -2,10 +2,9 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "modules.h"
-#include "status.h"
+#include "modules/modules.h"
 #include "init.h"
-#include "control.h"
+#include "modules/control.h"
 #include "connector.h"
 #include "scheduler.h"
 
