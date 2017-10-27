@@ -36,7 +36,7 @@ def run():
         break
 
     args = ('avrdude -F -V -c arduino -p atmega328p -P ' + inpt + ' -b 115200 -U flash:w:' + get_target() + '.hex').split()
-    
+
     try:
         subprocess.run(args)
     except subprocess.CalledProcessError as e:
