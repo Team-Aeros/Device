@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include <avr/sfr_defs.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "connector.h"
 
 #define UBBRVAL 51
@@ -17,8 +18,10 @@ void transmit(uint8_t type, uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
 
-    // Won't work, will fix later
-    UDR0 = type + data;
+    // Sorry. I know.
+    char str[8];
+    sprintf(str, "%d%d", type, data);
+    UDR0 = atoi(str);
 }
 
 uint8_t receive()
