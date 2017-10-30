@@ -18,8 +18,9 @@ int main()
     sch_init_t1();
     sch_start();
     
-	int time = SENSOR_MODE == 0 ? 3000 : 4000; sch_add_task(run_sensor_scan, time, time);
+	int time = SENSOR_MODE == 0 ? 3000 : 4000;
 
+    sch_add_task(run_sensor_scan, time, time);
     sch_add_task(report_average, 0, 6000);
     sch_add_task(check_for_messages, 0, 200);
 

@@ -16,7 +16,7 @@ void transmit(uint8_t type, uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
 
-    // Sorry. I know.
+    // Integer concatenation
     char str[8];
     sprintf(str, "%d%d", type, data);
     UDR0 = (uint16_t) atoi(str);
