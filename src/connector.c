@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include "connector.h"
 
-#define UBBRVAL 51
-
 typedef enum DataType
 {
     LIGHT_SENSOR,
@@ -21,13 +19,20 @@ void transmit(uint8_t type, uint8_t data)
     // Sorry. I know.
     char str[8];
     sprintf(str, "%d%d", type, data);
-    UDR0 = atoi(str);
+    UDR0 = (uint16_t) atoi(str);
 }
 
-uint8_t receive()
+uint16_t receive()
 {
-    loop_until_bit_is_set(UCSR0A, RXC0);
+    //loop_until_bit_is_set(UCSR0A, RXC0);
     return UDR0;
+}
+
+void check_for_messages()
+{
+    uint16_t message = receive();
+    
+    uint16_t type = message;
 }
 
 void init_connector()

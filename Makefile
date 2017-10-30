@@ -15,4 +15,4 @@ upload: $(TARGET).hex
 	python build/upload.py $(TARGET)
 
 clean:
-	rm -f src/*.o src/*.hex src/*.elf
+	rm -f src/*.o src/*.hex src/*.elf *.o *.elf *.hex
