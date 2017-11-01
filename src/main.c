@@ -22,7 +22,7 @@ int main()
 
     sch_add_task(run_sensor_scan, time, time);
     sch_add_task(report_average, 0, 6000);
-    sch_add_task(check_for_messages, 0, 200);
+    sch_add_task(check_for_messages, 0, 100);
 
     while (1)
     {
