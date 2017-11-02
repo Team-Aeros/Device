@@ -10,7 +10,7 @@ BINARY INSTRUCTION      ACTION                      COMPLETE
 0011 xxxx               roll down                   yes
 0100 xxxx               report temp/light           no
 0101 xxxx               ??
-0110 xxxx               ??
+0110 xxxx               confirmation (sent autom.)  yes
 0111 xxxx               end transmission cycle      yes
 ```
 
@@ -30,11 +30,9 @@ transmit(0b01110000);   // End transmission
 Obviously, this won't work, because the second line triggers the end of the transmission cycle.
 
 ## 3. Float
-If you're dealing with float numbers, you need to send two bytes. For example:
+If you're dealing with float numbers, multiply the float by 10 so that it becomes an integer. The receiver automatically divides the number by 10 to convert it back to a float. If one byte isn't enough, remember that you can use several bytes. The receiver sums them automatically.
 
-``22.25`` is saved as 22 and 25, meaning 0b00010110 and 0b00011001. They must be sent in that order.
-
-## 4. Examples
+## 4. Examples (outdated)
 **Set the value of setting no 1 to 22.25:**
 ```
 transmit(0b11111111);   // Start transmission
