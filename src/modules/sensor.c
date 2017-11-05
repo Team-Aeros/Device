@@ -22,7 +22,7 @@ void run_sensor_scan()
 	{
 		if (status == 1)
 		{
-			roll_down(length);
+			roll_shutter(length, DOWN);
 			status = 0;
 		}
 	}
@@ -30,7 +30,7 @@ void run_sensor_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(length);
+			roll_shutter(length, UP);
 			status = 1;
 		}
 	}

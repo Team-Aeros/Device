@@ -6,10 +6,10 @@ Transmissions sent to and by the controle room application have a specific forma
 ```
 BINARY INSTRUCTION      ACTION                      COMPLETE
 0001 xxxx               set setting                 no
-0010 xxxx               roll up                     yes
-0011 xxxx               roll down                   yes
-0100 xxxx               report temp/light           no
-0101 xxxx               ??
+0010 0000               roll up                     yes
+0011 0000               roll down                   yes
+0100 0000               report temp/light           no
+0101 xxxx               send status                 yes
 0110 xxxx               confirmation (sent autom.)  yes
 0111 xxxx               end transmission cycle      yes
 ```
