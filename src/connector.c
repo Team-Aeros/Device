@@ -6,6 +6,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "connector.h"
 #include "modules/control.h"
 #include "settings.h"
@@ -25,7 +26,7 @@ void transmit(uint8_t data)
 
 uint8_t receive()
 {
-    //loop_until_bit_is_set(UCSR0A, RXC0);
+    loop_until_bit_is_set(UCSR0A, RXC0);
     return UDR0;
 }
 
@@ -35,6 +36,7 @@ void check_for_messages()
     uint8_t type;
     uint8_t args;
     uint8_t continued = 0;
+    uint8_t value = 0;
 
     // Has a connection been established?
     if (receive() != 0xFF)
@@ -59,17 +61,43 @@ void check_for_messages()
             switch (type)
             {
                 case SET_SETTING:
-                    // @todo Replace
-                    continue;
+                    while (1)
+                    {
+                        message = receive();
+
+                        if (message == 0b0111000)
+                        {
+                            value /= 10;
+
+                            // set setting
+                            switch (args)
+                            {
+                                case SETTING_LENGTH:
+                                    // length = value
+                                case SETTING_ROLL_DOWN_VALUE:
+                                    // roll_down_value = value
+                                default:
+                                    transmit(0b01011111);
+                                    value = 0;
+                                    return;
+                            }
+
+                            value = 0;
+                            return;
+                        }
+
+                        value += message;
+                    }
+                    break;
                 case ROLL_UP:
-                    roll_up(length);
+                    roll_shutter(length, UP);
                     return;
                 case ROLL_DOWN:
-                    roll_down(length);
+                    roll_shutter(length, DOWN);
                     return;
                 case REPORT:
                 case END_TRANSM:
-                    break;
+                    return;
             }
         }
 

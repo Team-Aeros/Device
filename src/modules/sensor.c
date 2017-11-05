@@ -6,6 +6,7 @@
 #include "light_sensor.h"
 #include "temp_sensor.h"
 
+// 0 = down, 1 = up
 volatile int status = 1;
 
 float read_sensor()
@@ -22,7 +23,7 @@ void run_sensor_scan()
 	{
 		if (status == 1)
 		{
-			roll_down(length);
+			roll_shutter(length, DOWN);
 			status = 0;
 		}
 	}
@@ -30,7 +31,7 @@ void run_sensor_scan()
 	{
 		if (status == 0)
 		{
-			roll_up(length);
+			roll_shutter(length, UP);
 			status = 1;
 		}
 	}
@@ -38,7 +39,26 @@ void run_sensor_scan()
 
 void report_average()
 {
-	//transmit(AVERAGE_LIGHT, get_average_light());
+	float average = get_average() * 10;
+	int result;
+
+	transmit(0b11111111);
+	transmit(0b01000000);
+
+	while (average >= 0)
+	{
+		if ((result = average - 255) >= 0)
+		{
+			transmit(result);
+			average -= 255;
+		}
+		else
+		{
+			transmit(average);
+		}
+	}
+
+	transmit(0b01110000);
 }
 
 void add_to_average(float value)
