@@ -97,7 +97,7 @@ void check_for_messages()
                     return;
                 case REPORT:
                 case END_TRANSM:
-                    break;
+                    return;
             }
         }
 
