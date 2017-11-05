@@ -10,6 +10,9 @@
 #define REPORT      0b01000000
 #define END_TRANSM  0b01110000
 
+#define SETTING_LENGTH          0b00000001
+#define SETTING_ROLL_DOWN_VALUE 0b00000010
+
 void transmit(uint8_t data);
 uint8_t receive();
 void check_for_messages();

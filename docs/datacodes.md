@@ -10,6 +10,7 @@ BINARY INSTRUCTION      ACTION                      COMPLETE
 0011 0000               roll down                   yes
 0100 0000               report temp/light           no
 0101 xxxx               send status                 yes
+0101 1111               status: failure             yes
 0110 xxxx               confirmation (sent autom.)  yes
 0111 xxxx               end transmission cycle      yes
 ```
