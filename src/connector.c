@@ -48,9 +48,8 @@ void check_for_messages()
         return;
     }
 
-    transmit(0b01100000)
-;
-    PORTD |= _BV(PD6);
+    // Confirm we've established a connection
+    transmit(0b01100000);
 
     while (1)
     {
