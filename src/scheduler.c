@@ -95,7 +95,7 @@ unsigned char sch_add_task(void (*pFunction)(), const unsigned int DELAY, const 
         index++;
     }
 
-    // Have we reached the end of the list?   
+    // Have we reached the end of the list?
     if (index == SCH_MAX_TASKS)
     {
         // Task list is full, return an error code

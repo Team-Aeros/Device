@@ -48,6 +48,10 @@ def run():
             else:
                 buffer.append(line)
 
+        if not found:
+            print('=> Error: could not find SENSOR_MODE constant')
+            return -1
+
         file.seek(0)
         file.truncate(0)
 
