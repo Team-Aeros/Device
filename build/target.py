@@ -35,15 +35,24 @@ def run():
         return -1
 
     with open(SOURCE, 'r+') as file:
-        file.truncate()
+        buffer = []
+        found = False
 
         for line in file:
-            if '#define SENSOR_MODE' in line:
-                file.write('#define SENSOR_MODE {0}'.format(0 if inpt.lower() == 'light' else 'temp'))
+            if '#define SENSOR_MODE' in line and not found:
+                buffer.append('#define SENSOR_MODE {0}'.format(0 if inpt.lower() == 'light' else 1) + \
+                                ' // 0 = light_sensor, 1 = temp_sensor \n')
+
                 print('=> Line found')
-                break
+                found = True
             else:
-                file.write(line)
+                buffer.append(line)
+
+        file.seek(0)
+        file.truncate(0)
+
+        for line in buffer:
+            file.write(line)
 
 
 if __name__ == '__main__':

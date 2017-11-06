@@ -3,7 +3,11 @@
 TARGET	 	= device
 SOURCES 	= $(wildcard src/*.c) $(wildcard src/modules/*.c)
 
-all: compile cpobject upload
+all: 		moderequest compile cpobject upload
+cmponly:	compile cpobject upload
+
+moderequest:
+	python build/target.py
 
 compile:
 	avr-gcc -W -mmcu=atmega328p -Os $(SOURCES) -o $(TARGET).elf
