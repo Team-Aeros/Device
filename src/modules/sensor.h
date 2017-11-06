@@ -2,7 +2,7 @@
 #define dev_sensor_h
 
 #define MAX_VALUES 5
-#define SENSOR_MODE 0 // 0 = light_sensor, 1 = temp_sensor
+#define SENSOR_MODE 1 // 0 = light_sensor, 1 = temp_sensor 
 
 float read_sensor();
 

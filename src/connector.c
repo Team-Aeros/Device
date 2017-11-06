@@ -81,9 +81,11 @@ void check_for_messages()
                         switch (args)
                         {
                             case SETTING_LENGTH:
-                                // length = value
+                                length = value;
+                                break;
                             case SETTING_ROLL_DOWN_VALUE:
-                                // roll_down_value = value
+                                roll_down_value = value;
+                                break;
                             default:
                                 transmit(0b01011111);
                                 value = 0;
