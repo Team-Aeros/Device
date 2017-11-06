@@ -45,7 +45,6 @@ void run_sensor_scan()
 
 void report_average()
 {	
-	return;
 	float average = get_average() * 10;
 	int result;
 
