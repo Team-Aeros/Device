@@ -46,6 +46,9 @@ void check_for_messages()
         return;
     }
 
+    // Confirm we've established a connection
+    transmit(0b01100000);
+
     while (1)
     {
         message = receive();
