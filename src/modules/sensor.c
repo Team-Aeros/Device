@@ -19,46 +19,50 @@ void run_sensor_scan()
 	float reading = read_sensor();
 	add_to_average(reading);
 	
-	if (get_average() > roll_down_value) // Change to user chosen variable
+	if (read_sensor() > roll_down_value) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
-			roll_shutter(length, DOWN);
+			//roll_shutter(length, DOWN);
 			status = 0;
+			transmit(0b11111111);
+			transmit(0b01010000);
+			transmit(0b01110000);
 		}
 	}
 	else
 	{
 		if (status == 0)
 		{
-			roll_shutter(length, UP);
+			//roll_shutter(length, UP);
 			status = 1;
+			transmit(0b11111111);
+			transmit(0b01010001);
+			transmit(0b01110000);
 		}
 	}
-
-	transmit(0b11111111);
-	transmit(0b01010000 + status);
-	transmit(0b01110000);
 }
 
 void report_average()
-{
+{	
+	return;
 	float average = get_average() * 10;
 	int result;
 
 	transmit(0b11111111);
 	transmit(0b01000000);
 
-	while (average >= 0)
+	while (average > 0)
 	{
-		if ((result = average - 255) >= 0)
+		if ((result = average - 255) > 0)
 		{
-			transmit(result);
+			transmit(255);
 			average -= 255;
 		}
 		else
 		{
 			transmit(average);
+			break;
 		}
 	}
 

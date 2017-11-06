@@ -35,6 +35,7 @@ uint8_t receive()
 
 void check_for_messages()
 {
+    return;
     uint8_t message;
     uint8_t type;
     uint8_t args;
@@ -47,6 +48,8 @@ void check_for_messages()
         return;
     }
 
+    transmit(0b01100000)
+;
     PORTD |= _BV(PD6);
 
     while (1)
@@ -57,7 +60,7 @@ void check_for_messages()
         {
             return;
         }
-        
+
         // Send confirmation message
         transmit(0b01100000);
 
