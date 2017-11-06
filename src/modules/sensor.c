@@ -35,6 +35,10 @@ void run_sensor_scan()
 			status = 1;
 		}
 	}
+
+	transmit(0b11111111);
+	transmit(0b01010000 + status);
+	transmit(0b01110000);
 }
 
 void report_average()
