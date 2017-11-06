@@ -1,7 +1,7 @@
 #ifndef dev_settings_h
 #define dev_settings_h
 
-float length;
-float roll_down_value;
+extern float length;
+extern float roll_down_value;
 
 #endif
