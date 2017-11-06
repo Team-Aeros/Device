@@ -1,5 +1,4 @@
 #define F_CPU 16000000UL
-
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -18,16 +17,21 @@ int main()
     sch_init_t1();
     sch_start();
     
-	int time = SENSOR_MODE == 0 ? 3000 : 4000;
+    int time = SENSOR_MODE == 0 ? 3000 : 4000;
 
     sch_add_task(run_sensor_scan, time, time);
     sch_add_task(report_average, 0, 6000);
     sch_add_task(check_for_messages, 0, 100);
 
-    while (1)
-    {
-        sch_dispatch_tasks();
-    }
+    //while (1)
+    //{
+        //sch_dispatch_tasks();
+    _delay_ms(1000);
+    transmit(0b01000000);
+    transmit(0b00011000);
+    transmit(0b00000001);
+    transmit(0b01110000);
+    //}
 
     return 0;
 }

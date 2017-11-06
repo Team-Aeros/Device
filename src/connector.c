@@ -39,8 +39,11 @@ void check_for_messages()
     // Has a connection been established?
     if (receive() != 0xFF)
     {
+        PORTD |= _BV(PD7);
         return;
     }
+
+    PORTD |= _BV(PD6);
 
     while (1)
     {
@@ -62,10 +65,10 @@ void check_for_messages()
                     // @todo Replace
                     continue;
                 case ROLL_UP:
-                    roll_up(length);
+                    roll_up(1.50); //Make use of defined setting
                     return;
                 case ROLL_DOWN:
-                    roll_down(length);
+                    roll_down(1.50); //Make use of defined setting
                     return;
                 case REPORT:
                 case END_TRANSM:
