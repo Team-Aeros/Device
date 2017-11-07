@@ -32,7 +32,6 @@ uint8_t receive()
 
 void check_for_messages()
 {
-    return;
     uint8_t message;
     uint8_t type;
     uint8_t args;
