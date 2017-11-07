@@ -1,13 +1,11 @@
-#!/usr/bin/env python3
-
 from shutil import copyfile
 
 import re
 import sys
 
 SCRIPT_VERSION = '1.0.0'
-SOURCE = '../src/modules/sensor.h'
-BAK_DESTINATION = '../src/modules/sensor.h-bak'
+SOURCE = 'src/modules/sensor.h'
+BAK_DESTINATION = 'src/modules/sensor.h-bak'
 
 MODES = ['light', 'temperature']
 
