@@ -17,7 +17,7 @@ int main()
     sch_init_t1();
     sch_start();
     
-    // @todo Terugzetten of Michel wordt ontslagen
+    // @todo Terugzetten
     int time = SENSOR_MODE == 0 ? 300 : 400;
 
     sch_add_task(run_sensor_scan, time, time);

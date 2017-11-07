@@ -20,11 +20,8 @@ typedef enum DataType
 
 void transmit(uint8_t data)
 {
-    do
-    {
-        loop_until_bit_is_set(UCSR0A, UDRE0);
-        UDR0 = data;
-    } while (receive() != CONFIRM);
+    loop_until_bit_is_set(UCSR0A, UDRE0);
+    UDR0 = data;
 }
 
 uint8_t receive()
@@ -77,7 +74,6 @@ void check_for_messages()
                     {
                         value /= 10;
 
-                        // set setting
                         switch (args)
                         {
                             case SETTING_LENGTH:

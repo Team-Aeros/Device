@@ -19,7 +19,7 @@ void run_sensor_scan()
 	float reading = read_sensor();
 	add_to_average(reading);
 	
-	if (read_sensor() > roll_down_value) // Change to user chosen variable
+	if (reading > roll_down_value) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
