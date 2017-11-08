@@ -6,6 +6,7 @@
 
 float read_sensor();
 
+void toggle_status();
 void run_sensor_scan();
 void report_average();
 void add_to_average(float value);

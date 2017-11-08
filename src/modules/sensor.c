@@ -15,10 +15,8 @@ float read_sensor()
     return SENSOR_MODE == 0 ? read_light() : read_temp();
 }
 
-void run_sensor_scan()
+void toggle_status()
 {
-    add_to_average(read_sensor());
-    
     if (get_average() > roll_down_value) // Change to user chosen variable
     {
         if (status == 1)
@@ -40,6 +38,16 @@ void run_sensor_scan()
             transmit(0b01010001);
             transmit(0b01110000);
         }
+    }
+}
+
+void run_sensor_scan()
+{
+    add_to_average(read_sensor());
+
+    if (!in_manual_mode)
+    {
+        toggle_status();        
     }
 }
 

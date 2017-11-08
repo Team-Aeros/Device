@@ -1,5 +1,5 @@
 /* This file is based on code provided by the Hanze university */
-#define F_CPU 16000000UL
+#include "settings.h"
 
 #include <avr/io.h>
 #include <avr/sfr_defs.h>
@@ -9,7 +9,6 @@
 
 #include "connector.h"
 #include "modules/control.h"
-#include "settings.h"
 
 typedef enum DataType
 {
@@ -65,6 +64,12 @@ void check_for_messages()
         switch (type)
         {
             case SET_SETTING:
+                if (args == SETTING_IN_MANUAL_MODE)
+                {
+                    in_manual_mode = in_manual_mode ? 0 : 1;
+                    return;
+                }
+
                 while (1)
                 {
                     message = receive();
