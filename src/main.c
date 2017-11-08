@@ -1,4 +1,5 @@
 #define F_CPU 16000000UL
+
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -11,22 +12,21 @@
 int main()
 {
     init_connector();
-    port_init();
-    adc_init();
+    init_ports();
+    init_analog();
 
-    sch_init_t1();
-    sch_start();
-    
-    // @todo Terugzetten of Michel wordt ontslagen
+    scheduler_init_t1();
+    scheduler_start();
+
     int time = SENSOR_MODE == 0 ? 300 : 400;
 
-    sch_add_task(run_sensor_scan, time, time);
-    sch_add_task(report_average, 600, 600);
-    //sch_add_task(check_for_messages, 0, 100);
+    scheduler_add_task(run_sensor_scan, time, time);
+    scheduler_add_task(report_average, 600, 600);
+    scheduler_add_task(check_for_messages, 0, 100);
 
     while (1)
     {
-        sch_dispatch_tasks();
+        scheduler_dispatch_tasks();
     }
 
     return 0;

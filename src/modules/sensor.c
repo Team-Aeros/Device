@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <math.h>
 #include "sensor.h"
 #include "control.h"
 #include "../connector.h"
@@ -16,10 +17,9 @@ float read_sensor()
 
 void run_sensor_scan()
 {
-	float reading = read_sensor();
-	add_to_average(reading);
+	add_to_average(read_sensor());
 	
-	if (read_sensor() > roll_down_value) // Change to user chosen variable
+	if (get_average() > roll_down_value) // Change to user chosen variable
 	{
 		if (status == 1)
 		{
@@ -81,11 +81,19 @@ void add_to_average(float value)
 float get_average()
 {
     float sum = 0;
+    uint8_t actual_value_count = 0;
+    uint8_t value;
 
     for (uint8_t i = 0; i < MAX_VALUES; i++)
     {
-        sum += average[i];
+        value = average[i];
+        sum += value;
+
+        if (value > 0)
+        {
+            actual_value_count++;
+        }
     }
 
-    return (float) sum / MAX_VALUES;
+    return (float) sum / actual_value_count;
 }

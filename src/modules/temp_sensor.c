@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#include "light_sensor.h"
+#include "temp_sensor.h"
 
 // Returns current temperature in degrees C
 float read_temp()

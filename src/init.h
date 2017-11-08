@@ -1,7 +1,7 @@
 #ifndef dev_init_h
 #define dev_init_h
 
-void adc_init();
-void port_init();
+void init_analog();
+void init_ports();
 
 #endif

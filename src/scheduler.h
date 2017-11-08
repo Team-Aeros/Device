@@ -5,7 +5,7 @@
 typedef struct
 {
    // Pointer to task
-   void (*pTask)(void);
+   void (*task_pointer)(void);
    // Initial delay in ticks
    unsigned int delay;
    // Periodic interval in ticks
@@ -15,14 +15,14 @@ typedef struct
 } Task;
 
 // Function prototypes
-void sch_init_t1(void);
-void sch_start(void);
+void scheduler_init_t1(void);
+void scheduler_start(void);
 
 // Core scheduler functions
-void sch_dispatch_tasks(void);
-unsigned char sch_add_task(void (*)(void), const unsigned int, const unsigned int);
-unsigned char sch_delete_task(const unsigned char);
+void scheduler_dispatch_tasks(void);
+unsigned char scheduler_add_task(void (*)(void), const unsigned int, const unsigned int);
+unsigned char scheduler_delete_task(const unsigned char);
 
-#define SCH_MAX_TASKS 5
+#define SCHEDULER_MAX_TASKS 5
 
 #endif
