@@ -69,7 +69,7 @@ void check_for_messages()
                 {
                     message = receive();
 
-                    if (message == 0b0111000)
+                    if (message == 0b01110000)
                     {
                         value /= 10;
 

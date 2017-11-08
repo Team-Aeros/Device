@@ -53,11 +53,20 @@ void report_average()
  
 	while (average > 0)
 	{
-		if ((result = average - 255) > 0)
+        // This can be edited if we ever decide to bring back the confirmation messages
+        int is_instruction = average == 0b01110000;
+
+		if ((average - 255) > 0 && !is_instruction)
 		{
-			transmit(255);
+			transmit(0b11111111);
 			average -= 255;
 		}
+        else if (is_instruction)
+        {
+            transmit(average / 2);
+            transmit(average / 2);
+            break;
+        }
 		else
 		{
 			transmit(average);
