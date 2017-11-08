@@ -21,7 +21,7 @@ void toggle_status()
     {
         if (status == 1)
         {
-            //roll_shutter(length, DOWN);
+            roll_shutter(length, DOWN);
             status = 0;
             transmit(0b11111111);
             transmit(0b01010000);
@@ -32,7 +32,7 @@ void toggle_status()
     {
         if (status == 0)
         {
-            //roll_shutter(length, UP);
+            roll_shutter(length, UP);
             status = 1;
             transmit(0b11111111);
             transmit(0b01010001);

@@ -34,12 +34,12 @@ void check_for_messages()
     uint8_t message;
     uint8_t type;
     uint8_t args;
-    uint8_t value = 0;
+    float value = 0;
 
     // Has a connection been established?
     if (receive() != 0xFF)
     {
-        PORTD |= _BV(PD7);
+        //PORTD |= _BV(PD7);
         return;
     }
 
