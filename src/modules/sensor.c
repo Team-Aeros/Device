@@ -17,62 +17,62 @@ float read_sensor()
 
 void run_sensor_scan()
 {
-	add_to_average(read_sensor());
-	
-	if (get_average() > roll_down_value) // Change to user chosen variable
-	{
-		if (status == 1)
-		{
-			//roll_shutter(length, DOWN);
-			status = 0;
-			transmit(0b11111111);
-			transmit(0b01010000);
-			transmit(0b01110000);
-		}
-	}
-	else
-	{
-		if (status == 0)
-		{
-			//roll_shutter(length, UP);
-			status = 1;
-			transmit(0b11111111);
-			transmit(0b01010001);
-			transmit(0b01110000);
-		}
-	}
+    add_to_average(read_sensor());
+    
+    if (get_average() > roll_down_value) // Change to user chosen variable
+    {
+        if (status == 1)
+        {
+            //roll_shutter(length, DOWN);
+            status = 0;
+            transmit(0b11111111);
+            transmit(0b01010000);
+            transmit(0b01110000);
+        }
+    }
+    else
+    {
+        if (status == 0)
+        {
+            //roll_shutter(length, UP);
+            status = 1;
+            transmit(0b11111111);
+            transmit(0b01010001);
+            transmit(0b01110000);
+        }
+    }
 }
 
 void report_average()
-{	
-	float average = get_average() * 10;
-	int result;
+{   
+    float average = get_average() * 10;
+    int result;
 
     transmit(0b11111111);
     transmit(0b01000000);
  
-	while (average > 0)
-	{
+    while (average > 0)
+    {
         // This can be edited if we ever decide to bring back the confirmation messages
         int is_instruction = average == 0b01110000;
 
-		if ((average - 255) > 0 && !is_instruction)
-		{
-			transmit(0b11111111);
-			average -= 255;
-		}
+        if ((average - 255) > 0 && !is_instruction)
+        {
+            transmit(0b11111111);
+            average -= 255;
+        }
         else if (is_instruction)
         {
             transmit(average / 2);
             transmit(average / 2);
             break;
         }
-		else
-		{
-			transmit(average);
-			break;
-		}
-	}
+        else
+        {
+            transmit(average);
+            break;
+        }
+    }
 
     transmit(0b01110000);
 }
