@@ -13,6 +13,7 @@
 
 #define SETTING_LENGTH          0b00000001
 #define SETTING_ROLL_DOWN_VALUE 0b00000010
+#define SETTING_IN_MANUAL_MODE  0b00000011
 
 void transmit(uint8_t data);
 uint8_t receive();
