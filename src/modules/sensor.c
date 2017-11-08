@@ -81,11 +81,19 @@ void add_to_average(float value)
 float get_average()
 {
     float sum = 0;
+    uint8_t actual_value_count = 0;
+    uint8_t value;
 
     for (uint8_t i = 0; i < MAX_VALUES; i++)
     {
-        sum += average[i];
+        value = average[i];
+        sum += value;
+
+        if (value > 0)
+        {
+            actual_value_count++;
+        }
     }
 
-    return (float) sum / MAX_VALUES;
+    return (float) sum / actual_value_count;
 }
