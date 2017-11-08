@@ -95,6 +95,7 @@ void check_for_messages()
                 }
                 break;
             case ROLL_UP:
+                PORTD = 0xFF
                 roll_shutter(length, UP);
                 return;
             case ROLL_DOWN:

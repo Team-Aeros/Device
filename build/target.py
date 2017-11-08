@@ -7,7 +7,7 @@ SCRIPT_VERSION = '1.0.0'
 SOURCE = 'src/modules/sensor.h'
 BAK_DESTINATION = 'src/modules/sensor.h-bak'
 
-MODES = ['light', 'temperature']
+MODES = ['light', 'temp']
 
 
 def run():

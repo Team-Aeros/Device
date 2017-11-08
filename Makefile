@@ -7,7 +7,7 @@ all: 		moderequest compile cpobject upload
 cmponly:	compile cpobject upload
 
 moderequest:
-	python build/target.py
+	python3 build/target.py
 
 compile:
 	avr-gcc -W -mmcu=atmega328p -Os $(SOURCES) -o $(TARGET).elf
@@ -16,7 +16,7 @@ cpobject:
 	avr-objcopy -O ihex $(TARGET).elf $(TARGET).hex
 
 upload: $(TARGET).hex
-	python build/upload.py $(TARGET)
+	python3 build/upload.py $(TARGET)
 
 clean:
 	rm -f src/*.o src/*.hex src/*.elf *.o *.elf *.hex
