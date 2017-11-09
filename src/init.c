@@ -3,10 +3,10 @@
 
 void init_analog()
 {
-	ADCSRA |= _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0); // 128 prescaler
+	ADCSRA |= _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
 	ADMUX |= _BV(REFS0);
-	ADMUX &= ~_BV(REFS1); // 5v mode
-	ADCSRA |= _BV(ADEN); // Turn on
+	ADMUX &= ~_BV(REFS1);
+	ADCSRA |= _BV(ADEN);
 }
 
 void init_ports()

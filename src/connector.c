@@ -21,6 +21,7 @@ void transmit(uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = data;
+    _delay_ms(10);
 }
 
 uint8_t receive()

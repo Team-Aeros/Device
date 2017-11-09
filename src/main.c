@@ -17,15 +17,20 @@ int main()
     scheduler_init_t1();
     scheduler_start();
 
-    int time = SENSOR_MODE == 0 ? 3000 : 4000;
+    int time = SENSOR_MODE == 0 ? 300 : 400;
 
-    scheduler_add_task(run_sensor_scan, time, time);
-    scheduler_add_task(report_average, 6000, 6000);
-    scheduler_add_task(check_for_messages, 0, 100);
+    //scheduler_add_task(run_sensor_scan, time, time);
+    //scheduler_add_task(report_average, 600, 600);
+    //scheduler_add_task(check_for_messages, 0, 100);
 
     while (1)
     {
-        scheduler_dispatch_tasks();
+        transmit(0xFF);
+        transmit(0b01000000);
+        transmit(read_sensor() * 10);
+        transmit(0b01110000);
+        _delay_ms(300);
+        //scheduler_dispatch_tasks();
     }
 
     return 0;
