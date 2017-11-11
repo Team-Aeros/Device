@@ -1,22 +1,23 @@
-#include "settings.h"
-
 #include <avr/io.h>
-#include <util/delay.h>
+
+#include "modules/sensor.h"
+#include "modules/buzzer.h"
 
 #include "init.h"
-#include "modules/sensor.h"
 #include "connector.h"
 #include "scheduler.h"
 
 int main()
 {
-    init_connector();
+    // Initialisation
+    init_adc();
+    init_uart();
+    init_timer();
     init_ports();
-    init_analog();
 
     scheduler_init_t1();
 
-    // @todo: x10
+    // Needs to be multiplied. Currently used for testing
     int time = SENSOR_MODE == 0 ? 300 : 400;
 
     scheduler_add_task(run_sensor_scan, time, time);
@@ -29,6 +30,4 @@ int main()
     {
         scheduler_dispatch_tasks();
     }
-
-    return 0;
 }

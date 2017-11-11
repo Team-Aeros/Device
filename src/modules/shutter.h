@@ -1,5 +1,5 @@
-#ifndef dev_control_h
-#define dev_control_h
+#ifndef dev_shutter_h
+#define dev_shutter_h
 
 typedef enum Direction {
     UP,

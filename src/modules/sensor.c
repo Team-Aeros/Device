@@ -1,44 +1,24 @@
-#include <avr/io.h>
-#include <math.h>
+#define F_CPU 16000000UL
+
 #include "sensor.h"
-#include "control.h"
-#include "../connector.h"
-#include "../settings.h"
+
+#include <avr/io.h>
+#include <util/delay.h>
+#include <math.h>
+
 #include "light_sensor.h"
 #include "temp_sensor.h"
+#include "shutter.h"
 
-// 0 = down, 1 = up
+#include "../connector.h"
+#include "../settings.h"
+
+// Begin status of shutter. 0 = rolled down, 1 = rolled up
 volatile int status = 1;
 
 float read_sensor()
 {
     return SENSOR_MODE == 0 ? read_light() : read_temp();
-}
-
-void toggle_status()
-{
-    if (get_average() > roll_down_value)
-    {
-        if (status == 1)
-        {
-            //roll_shutter(length, DOWN);
-            status = 0;
-            transmit(0b11111111);
-            transmit(0b01010000);
-            transmit(0b01110000);
-        }
-    }
-    else
-    {
-        if (status == 0)
-        {
-            //roll_shutter(length, UP);
-            status = 1;
-            transmit(0b11111111);
-            transmit(0b01010001);
-            transmit(0b01110000);
-        }
-    }
 }
 
 void run_sensor_scan()
@@ -51,11 +31,38 @@ void run_sensor_scan()
     }
 }
 
+void toggle_status()
+{
+    if (get_average() > roll_down_value)
+    {
+        if (status == 1)
+        {
+            roll_shutter(length, DOWN);
+            status = 0;
+            
+            transmit(0b11111111);
+            transmit(0b01010000);
+            transmit(0b01110000);
+        }
+    }
+    else
+    {
+        if (status == 0)
+        {
+            roll_shutter(length, UP);
+            status = 1;
+            
+            transmit(0b11111111);
+            transmit(0b01010001);
+            transmit(0b01110000);
+        }
+    }
+}
+
 void report_average()
 {   
-    float average = round(get_average() * 10);
+    float average = get_average() * 10;
     int result;
-    int is_instruction;
 
     transmit(0b11111111);
     transmit(0b01000000);
@@ -63,9 +70,9 @@ void report_average()
     while (average > 0)
     {
         // This can be edited if we ever decide to bring back the confirmation messages
-        is_instruction = average == 0b01110000;
+        int is_instruction = average == 0b01110000;
 
-        if (average - 255 > 0 && !is_instruction)
+        if ((average - 255) > 0 && !is_instruction)
         {
             transmit(0b11111111);
             average -= 255;
