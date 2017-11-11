@@ -6,6 +6,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "connector.h"
 #include "modules/control.h"
