@@ -27,5 +27,5 @@ void roll_shutter(float distance, int direction)
         _delay_ms(500);
     }
     
-    stop_buzz()
+    stop_buzz();
 }

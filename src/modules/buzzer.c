@@ -1,3 +1,6 @@
+// This file includes code from: https://balau82.wordpress.com/2014/10/15/using-a-buzzer-with-arduino-in-pure-c/
+// The code has been slightly altered to suit our needs
+ 
 #include "buzzer.h"
 
 #include <avr/io.h>
