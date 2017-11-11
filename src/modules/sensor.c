@@ -65,7 +65,7 @@ void report_average()
         // This can be edited if we ever decide to bring back the confirmation messages
         is_instruction = average == 0b01110000;
 
-        if ((average - 255) > 0 && !is_instruction)
+        if (average - 255 > 0 && !is_instruction)
         {
             transmit(0b11111111);
             average -= 255;

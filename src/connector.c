@@ -27,8 +27,17 @@ void transmit(uint8_t data)
 
 uint8_t receive()
 {
-    loop_until_bit_is_set(UCSR0A, RXC0);
-    return UDR0;
+    for (uint8_t i = 0; i < 20; i++)
+    {
+        if (!bit_is_clear(UCSR0A, RXC0))
+        {
+            return UDR0;
+        }
+
+        _delay_ms(2);
+    }
+
+    return 0;
 }
 
 void check_for_messages()
@@ -114,16 +123,6 @@ void check_for_messages()
 
         _delay_ms(10);
     }
-}
-
-void init_connector()
-{
-    UBRR0H = 0;
-    UBRR0L = UBBRVAL;
-
-    UCSR0A = 0;
-    UCSR0B = _BV(TXEN0) | _BV(RXEN0);
-    UCSR0C = _BV(UCSZ01) | _BV(UCSZ00);
 }
 
 float create_float(uint8_t integer)
