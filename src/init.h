@@ -3,8 +3,9 @@
 
 #define UBBRVAL 51
 
-void init_analog();
+void init_adc();
 void init_ports();
-void init_connector();
+void init_uart();
+void init_timer();
 
 #endif

@@ -9,7 +9,7 @@
 #include <math.h>
 
 #include "connector.h"
-#include "modules/control.h"
+#include "modules/shutter.h"
 
 typedef enum DataType
 {
