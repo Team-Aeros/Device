@@ -17,7 +17,7 @@ float read_sensor()
 
 void toggle_status()
 {
-    if (get_average() > roll_down_value) // Change to user chosen variable
+    if (get_average() > roll_down_value)
     {
         if (status == 1)
         {
@@ -53,8 +53,9 @@ void run_sensor_scan()
 
 void report_average()
 {   
-    float average = get_average() * 10;
+    float average = round(get_average() * 10);
     int result;
+    int is_instruction;
 
     transmit(0b11111111);
     transmit(0b01000000);
@@ -62,9 +63,9 @@ void report_average()
     while (average > 0)
     {
         // This can be edited if we ever decide to bring back the confirmation messages
-        int is_instruction = average == 0b01110000;
+        is_instruction = average == 0b01110000;
 
-        if ((average - 255) > 0 && !is_instruction)
+        if (average - 255 > 0 && !is_instruction)
         {
             transmit(0b11111111);
             average -= 255;

@@ -15,13 +15,15 @@ int main()
     init_analog();
 
     scheduler_init_t1();
-    scheduler_start();
 
-    int time = SENSOR_MODE == 0 ? 300 : 4000;
+    // @todo: x10
+    int time = SENSOR_MODE == 0 ? 300 : 400;
 
     scheduler_add_task(run_sensor_scan, time, time);
     scheduler_add_task(report_average, 600, 600);
     scheduler_add_task(check_for_messages, 0, 100);
+
+    scheduler_start();
 
     while (1)
     {
