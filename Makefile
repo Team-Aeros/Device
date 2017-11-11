@@ -16,7 +16,7 @@ moderequest:
 	$(PYTH) build/target.py
 
 compile:
-	avr-gcc -W -mmcu=atmega328p -Os $(SOURCES) -o $(TARGET).elf
+	avr-gcc -W --std=gnu99 -mmcu=atmega328p -Os $(SOURCES) -o $(TARGET).elf
 
 cpobject:
 	avr-objcopy -O ihex $(TARGET).elf $(TARGET).hex
