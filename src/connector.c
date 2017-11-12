@@ -40,6 +40,12 @@ uint8_t receive()
     return 0;
 }
 
+uint8_t receive_infinite()
+{
+    loop_until_bit_is_set(UCSR0A, RXC0);
+    return UDR0;
+}
+
 void check_for_messages()
 {
     uint8_t message;
@@ -54,9 +60,6 @@ void check_for_messages()
         return;
     }
 
-    // Confirm we've established a connection
-    transmit(0b01100000);
-
     while (1)
     {
         message = receive();
@@ -65,9 +68,6 @@ void check_for_messages()
         {
             return;
         }
-
-        // Send confirmation message
-        transmit(0b01100000);
 
         type = message & 0xF0;
         args = message & 0x0F;
@@ -93,10 +93,16 @@ void check_for_messages()
                         {
                             case SETTING_LENGTH:
                                 length = value;
-                                break;
+                                return;
                             case SETTING_ROLL_DOWN_VALUE:
                                 roll_down_value = value;
-                                break;
+
+                                if (value == 0)
+                                {
+                                    PORTB = 0xFF;
+                                }
+                                value = 0;
+                                return;
                             default:
                                 transmit(0b01011111);
                                 value = 0;

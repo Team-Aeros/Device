@@ -27,7 +27,7 @@ void run_sensor_scan()
 
     if (!in_manual_mode)
     {
-        toggle_status();        
+        //toggle_status();        
     }
 }
 
@@ -61,7 +61,7 @@ void toggle_status()
 
 void report_average()
 {   
-    float average = get_average() * 10;
+    float average = round(get_average() * 10);
     int result;
 
     transmit(0b11111111);
