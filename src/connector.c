@@ -22,23 +22,28 @@ void transmit(uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = data;
-    _delay_ms(10);
+    //_delay_ms(10);
 }
 
 uint8_t receive()
 {
     for (uint8_t i = 0; i < 20; i++)
     {
-        if (!bit_is_clear(UCSR0A, RXC0))
-        {
-            return UDR0;
-        }
-
-        _delay_ms(2);
+       	if (!bit_is_clear(UCSR0A, RXC0))
+       	{
+        	return UDR0;
+       	}
+		_delay_ms(2);
     }
 
     return 0;
 }
+
+/*uint8_t receive()
+{
+	loop_until_bit_is_set(UCSR0A, RXC0);
+    return UDR0;
+}*/
 
 void check_for_messages()
 {
@@ -55,7 +60,7 @@ void check_for_messages()
     }
 
     // Confirm we've established a connection
-    transmit(0b01100000);
+    //transmit(0b01100000);
 
     while (1)
     {
@@ -67,7 +72,7 @@ void check_for_messages()
         }
 
         // Send confirmation message
-        transmit(0b01100000);
+        //transmit(0b01100000);
 
         type = message & 0xF0;
         args = message & 0x0F;
@@ -93,9 +98,11 @@ void check_for_messages()
                         {
                             case SETTING_LENGTH:
                                 length = value;
+                                PORTB |= _BV(PB3);
                                 break;
                             case SETTING_ROLL_DOWN_VALUE:
                                 roll_down_value = value;
+                                //PORTB |= _BV(PB3);
                                 break;
                             default:
                                 transmit(0b01011111);
@@ -121,7 +128,7 @@ void check_for_messages()
                 return;
         }
 
-        _delay_ms(10);
+        //_delay_ms(10);
     }
 }
 

@@ -47,4 +47,5 @@ void init_timer()
 {
 	// Used for distance sensor
 	TCCR1B |= _BV(CS10);
+	TCCR1A |= _BV(CS10);
 }

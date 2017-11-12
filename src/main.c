@@ -2,17 +2,19 @@
 
 #include "modules/sensor.h"
 #include "modules/buzzer.h"
+#include "modules/distance_sensor.h"
 
 #include "init.h"
 #include "connector.h"
 #include "scheduler.h"
+#include "settings.h"
 
 int main()
 {
     // Initialisation
     init_adc();
     init_uart();
-    init_timer();
+    //init_timer();
     init_ports();
 
     scheduler_init_t1();
@@ -25,6 +27,8 @@ int main()
     scheduler_add_task(check_for_messages, 0, 100);
 
     scheduler_start();
+
+    //transmit(read_distance());
 
     while (1)
     {

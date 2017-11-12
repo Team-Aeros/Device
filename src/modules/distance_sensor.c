@@ -10,7 +10,7 @@
 float read_distance()
 {
 	PORTD |= _BV(PD3);
-	_delay_us(20);
+	_delay_us(10);
 	PORTD &= ~_BV(PD3);
 
 	loop_until_bit_is_set(PIND, PD4);
@@ -19,8 +19,8 @@ float read_distance()
 	loop_until_bit_is_clear(PIND, PD4);
 	PORTB &= ~_BV(PB3);
 	unsigned int count = TCNT1;
-	//transmit(TCNT1);
-	float distance = ((float)count / 16) / 58;
+	//transmit(count);
+	float distance = ((float)count / 4);
 
 	return distance;
 }
