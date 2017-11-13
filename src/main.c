@@ -1,11 +1,16 @@
+#define F_CPU 16000000UL
+
 #include <avr/io.h>
+#include <util/delay.h>
 
 #include "modules/sensor.h"
 #include "modules/buzzer.h"
+#include "modules/distance_sensor.h"
 
 #include "init.h"
 #include "connector.h"
 #include "scheduler.h"
+#include "settings.h"
 
 int main()
 {
@@ -26,8 +31,12 @@ int main()
 
     scheduler_start();
 
+    //transmit(read_distance());
+
     while (1)
     {
         scheduler_dispatch_tasks();
+        //transmit(read_distance());
+        //_delay_ms(1000);
     }
 }

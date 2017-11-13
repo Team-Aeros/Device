@@ -29,14 +29,13 @@ uint8_t receive()
 {
     for (uint8_t i = 0; i < 20; i++)
     {
-        if (!bit_is_clear(UCSR0A, RXC0))
-        {
-            return UDR0;
-        }
-
-        _delay_ms(2);
+       	if (!bit_is_clear(UCSR0A, RXC0))
+       	{
+        	return UDR0;
+       	}
+		_delay_ms(2);
     }
-
+    //PORTB |= _BV(PB3);
     return 0;
 }
 
@@ -54,20 +53,26 @@ void check_for_messages()
         return;
     }
 
+    //PORTB |= _BV(PB4);
+
     // Confirm we've established a connection
-    transmit(0b01100000);
+    //transmit(0b01100000);
 
     while (1)
     {
         message = receive();
 
+        // This makes it work, dont know why.
+        transmit(message);
+
         if (message == 0x00)
         {
+            //PORTB |= _BV(PB3);
             return;
         }
 
         // Send confirmation message
-        transmit(0b01100000);
+        //transmit(0b01100000);
 
         type = message & 0xF0;
         args = message & 0x0F;
@@ -93,35 +98,40 @@ void check_for_messages()
                         {
                             case SETTING_LENGTH:
                                 length = value;
+                                //PORTB |= _BV(PB3);
                                 break;
                             case SETTING_ROLL_DOWN_VALUE:
                                 roll_down_value = value;
+                                //PORTB |= _BV(PB3);
                                 break;
                             default:
                                 transmit(0b01011111);
-                                value = 0;
+                                //value = 0;
                                 return;
                         }
 
-                        value = 0;
                         return;
                     }
 
                     value += message;
+                    //PORTB |= _BV(PB3);
                 }
                 break;
             case ROLL_UP:
                 roll_shutter(length, UP);
+                in_manual_mode = 0;
                 return;
             case ROLL_DOWN:
                 roll_shutter(length, DOWN);
+                in_manual_mode = 1;
+                //PORTB |= _BV(PB3);
                 return;
             case REPORT:
             case END_TRANSM:
                 return;
         }
 
-        _delay_ms(10);
+        //_delay_ms(10);
     }
 }
 
