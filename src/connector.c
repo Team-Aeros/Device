@@ -33,7 +33,7 @@ uint8_t receive()
        	{
         	return UDR0;
        	}
-		//_delay_ms(2);
+		_delay_ms(2);
     }
     //PORTB |= _BV(PB3);
     return 0;
@@ -53,12 +53,17 @@ void check_for_messages()
         return;
     }
 
+    //PORTB |= _BV(PB4);
+
     // Confirm we've established a connection
     //transmit(0b01100000);
 
     while (1)
     {
         message = receive();
+
+        // This makes it work, dont know why.
+        transmit(message);
 
         if (message == 0x00)
         {
@@ -85,17 +90,9 @@ void check_for_messages()
                 {
                     message = receive();
 
-                    if (message != 0b01110000)
-                    {
-                        PORTB |= _BV(PB4);
-                    }
-
                     if (message == 0b01110000)
                     {
-                        if (value == 0x00)
-                        {
-                            PORTB |= _BV(PB3); // Hier brand hij wel
-                        }
+                        value /= 10;
 
                         switch (args)
                         {
@@ -117,14 +114,17 @@ void check_for_messages()
                     }
 
                     value += message;
-                    //PORTB |= _BV(PB4);
+                    //PORTB |= _BV(PB3);
                 }
                 break;
             case ROLL_UP:
                 roll_shutter(length, UP);
+                in_manual_mode = 0;
                 return;
             case ROLL_DOWN:
                 roll_shutter(length, DOWN);
+                in_manual_mode = 1;
+                //PORTB |= _BV(PB3);
                 return;
             case REPORT:
             case END_TRANSM:
