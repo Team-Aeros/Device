@@ -26,9 +26,6 @@ void init_ports()
 	DDRD |= _BV(PD3); // Trigger
 	DDRD &= ~_BV(PD4); // Echo
 
-	DDRB |= _BV(PB0); // Trigger
-	DDRB &= ~_BV(PB1); // Echo
-
 	// Light/Temp sensor
 	DDRC &= ~_BV(PC1); // Input sensor
 }
@@ -47,5 +44,5 @@ void init_timer()
 {
 	// Used for distance sensor
 	TCCR1B |= _BV(CS10);
-	TCCR1A |= _BV(CS10);
+	//TCCR1A |= _BV(CS10);
 }

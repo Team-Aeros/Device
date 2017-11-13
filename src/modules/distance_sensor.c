@@ -15,10 +15,10 @@ float read_distance()
 
 	loop_until_bit_is_set(PIND, PD4);
 	TCNT1 = 0;
-	PORTB |= _BV(PB3);
+	//PORTB |= _BV(PB3);
 	loop_until_bit_is_clear(PIND, PD4);
-	PORTB &= ~_BV(PB3);
-	unsigned int count = TCNT1;
+	//PORTB &= ~_BV(PB3);
+	uint16_t count = TCNT1;
 	//transmit(count);
 	float distance = ((float)count / 4);
 

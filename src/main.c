@@ -1,4 +1,7 @@
+#define F_CPU 16000000UL
+
 #include <avr/io.h>
+#include <util/delay.h>
 
 #include "modules/sensor.h"
 #include "modules/buzzer.h"
@@ -14,7 +17,7 @@ int main()
     // Initialisation
     init_adc();
     init_uart();
-    //init_timer();
+    init_timer();
     init_ports();
 
     scheduler_init_t1();
@@ -33,5 +36,7 @@ int main()
     while (1)
     {
         scheduler_dispatch_tasks();
+        //transmit(read_distance());
+        //_delay_ms(1000);
     }
 }

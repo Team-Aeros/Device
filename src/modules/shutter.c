@@ -13,7 +13,7 @@
 // Roll up or down
 void roll_shutter(float distance, int direction)
 {
-    float roll_time = distance / 0.05;
+    //float roll_time = distance / 0.05;
     
     PORTB &= ~_BV(direction == DOWN ? PB5 : PB4);
     PORTB |= _BV(direction == DOWN ? PB4 : PB5);

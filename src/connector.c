@@ -22,7 +22,7 @@ void transmit(uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = data;
-    //_delay_ms(10);
+    _delay_ms(10);
 }
 
 uint8_t receive()
@@ -33,17 +33,11 @@ uint8_t receive()
        	{
         	return UDR0;
        	}
-		_delay_ms(2);
+		//_delay_ms(2);
     }
-
+    //PORTB |= _BV(PB3);
     return 0;
 }
-
-/*uint8_t receive()
-{
-	loop_until_bit_is_set(UCSR0A, RXC0);
-    return UDR0;
-}*/
 
 void check_for_messages()
 {
@@ -68,6 +62,7 @@ void check_for_messages()
 
         if (message == 0x00)
         {
+            //PORTB |= _BV(PB3);
             return;
         }
 
@@ -90,15 +85,23 @@ void check_for_messages()
                 {
                     message = receive();
 
+                    if (message != 0b01110000)
+                    {
+                        PORTB |= _BV(PB4);
+                    }
+
                     if (message == 0b01110000)
                     {
-                        value /= 10;
+                        if (value == 0x00)
+                        {
+                            PORTB |= _BV(PB3); // Hier brand hij wel
+                        }
 
                         switch (args)
                         {
                             case SETTING_LENGTH:
                                 length = value;
-                                PORTB |= _BV(PB3);
+                                //PORTB |= _BV(PB3);
                                 break;
                             case SETTING_ROLL_DOWN_VALUE:
                                 roll_down_value = value;
@@ -106,15 +109,15 @@ void check_for_messages()
                                 break;
                             default:
                                 transmit(0b01011111);
-                                value = 0;
+                                //value = 0;
                                 return;
                         }
 
-                        value = 0;
                         return;
                     }
 
                     value += message;
+                    //PORTB |= _BV(PB4);
                 }
                 break;
             case ROLL_UP:
