@@ -1,7 +1,10 @@
 #include <avr/io.h>
 #include "temp_sensor.h"
 
-// Returns current temperature in degrees C
+/**
+ * Gets the temperature sensor reading.
+ * @return The current temperature in degrees C
+ */
 float read_temp()
 {
 	ADMUX &= ~_BV(MUX0);

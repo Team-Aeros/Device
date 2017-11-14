@@ -16,21 +16,31 @@
 // Begin status of shutter. 0 = rolled down, 1 = rolled up
 volatile int status = 1;
 
+/**
+ * Returns the reading from the appropriate sensor.
+ * @return Said reading
+ */
 float read_sensor()
 {
     return SENSOR_MODE == 0 ? read_light() : read_temp();
 }
 
+/**
+ * Runs a scan of the correct sensor
+ */
 void run_sensor_scan()
 {
     add_to_average(read_sensor());
 
     if (!in_manual_mode)
     {
-        //toggle_status();        
+        toggle_status();        
     }
 }
 
+/**
+ * Rolls the shutter up or down based on the average sensor value
+ */
 void toggle_status()
 {
     if (get_average() > roll_down_value)
@@ -59,6 +69,9 @@ void toggle_status()
     }
 }
 
+/**
+ * Transmits the average sensor reading to the GUI.
+ */
 void report_average()
 {   
     float average = round(get_average() * 10);
@@ -93,6 +106,9 @@ void report_average()
     transmit(0b01110000);
 }
 
+/**
+ * Adds a value to the average array and removes the first value.
+ */
 void add_to_average(float value)
 {
     for (uint8_t i = 1; i < MAX_VALUES; i++)
@@ -103,6 +119,10 @@ void add_to_average(float value)
     average[MAX_VALUES - 1] = value;
 }
 
+/**
+ * Calculates the average while taking the exact number of values into account.
+ * @returns The average
+ */
 float get_average()
 {
     float sum = 0;

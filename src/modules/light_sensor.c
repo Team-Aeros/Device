@@ -1,7 +1,10 @@
 #include <avr/io.h>
 #include "light_sensor.h"
 
-// Returns value of light sensor between 0 and 100
+/**
+ * Returns value of light sensor between 0 and 100
+ * @returns The light sensor reading
+ */
 float read_light()
 {
     ADMUX |= _BV(MUX0);
