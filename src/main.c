@@ -14,7 +14,7 @@
 
 int main()
 {
-    // Initialisation
+    // Initialization
     init_adc();
     init_uart();
     init_timer();
@@ -22,8 +22,7 @@ int main()
 
     scheduler_init_t1();
 
-    // Needs to be multiplied. Currently used for testing
-    int time = SENSOR_MODE == 0 ? 300 : 400;
+    int time = SENSOR_MODE == 0 ? 3000 : 4000;
 
     scheduler_add_task(run_sensor_scan, time, time);
     scheduler_add_task(report_average, 600, 600);

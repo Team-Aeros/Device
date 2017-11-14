@@ -5,3 +5,9 @@
 3. ``make clean`` (optional)
 
 Before compiling, make sure you're connected to port COM5 or /dev/ttyACM0.
+
+## 2. Requirements
+* Make
+* avr-gcc
+* avr-objcopy
+* avrdude

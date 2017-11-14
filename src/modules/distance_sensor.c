@@ -5,6 +5,10 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+/**
+ * Used for reading data from the distance sensor.
+ * @return The distance sensor reading
+ */
 float read_distance()
 {
 	PORTD |= _BV(PD3);
@@ -15,7 +19,6 @@ float read_distance()
 	TCNT1 = 0;
 	loop_until_bit_is_clear(PIND, PD4);
 	uint16_t count = TCNT1;
-	float distance = ((float)count / 4);
 
-	return distance;
+	return ((float) count / 4);
 }

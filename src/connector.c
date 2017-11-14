@@ -11,6 +11,16 @@
 #include "connector.h"
 #include "modules/shutter.h"
 
+/**
+ * Data type enum. It's no longer used, but out of fear of breaking something it
+ * we haven't removed it. As you can see, AVERAGE_LIGHT is missing. That's how
+ * old this thing is.
+ *
+ * Values:
+ *  - LIGHT_SENSOR          = Light sensor readings
+ *  - TEMPERATURE_SENSOR    = Temperature sensor readings
+ *  - AVERAGE_TEMPERATURE   = Average temperature
+ */
 typedef enum DataType
 {
     LIGHT_SENSOR,
@@ -18,6 +28,10 @@ typedef enum DataType
     AVERAGE_TEMPERATURE
 } DataType;
 
+/**
+ * Used for transmitting data to the GUI.
+ * @param data One byte of data
+ */
 void transmit(uint8_t data)
 {
     loop_until_bit_is_set(UCSR0A, UDRE0);
@@ -25,20 +39,30 @@ void transmit(uint8_t data)
     _delay_ms(10);
 }
 
+/**
+ * Checks every two miliseconds if any data has been received. After 20 attempts,
+ * this function returns 0.
+ * @return One byte of data
+ */
 uint8_t receive()
 {
     for (uint8_t i = 0; i < 20; i++)
     {
-       	if (!bit_is_clear(UCSR0A, RXC0))
-       	{
-        	return UDR0;
-       	}
-		_delay_ms(2);
+        if (!bit_is_clear(UCSR0A, RXC0))
+        {
+            return UDR0;
+        }
+        _delay_ms(2);
     }
     //PORTB |= _BV(PB3);
     return 0;
 }
 
+/**
+ * If there are any transmissions, this function will handle them. It's called by the
+ * scheduler every X seconds. Any transmission cycli not initiated with '0xFF' are
+ * completely ignored.
+ */
 void check_for_messages()
 {
     uint8_t message;
@@ -62,7 +86,7 @@ void check_for_messages()
     {
         message = receive();
 
-        // This makes it work, dont know why.
+        // This makes it work, dont know why. So for the love of god, DO NOT TOUCH THIS. EVER.
         transmit(message);
 
         if (message == 0x00)
@@ -135,6 +159,10 @@ void check_for_messages()
     }
 }
 
+/**
+ * Creates a 'float' by dividing an integer by 10.
+ * @param integer The integer that should be converted into a 'float'
+ */
 float create_float(uint8_t integer)
 {
     return (float) integer / 10;

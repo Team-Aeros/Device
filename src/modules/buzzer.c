@@ -7,6 +7,9 @@
 
 #include "../settings.h"
  
+/**
+ * This enum is used for setting the prescaler.
+ */
 enum t0_prescaler
 {
     T0_PRESCALER_1 = _BV(CS00),
@@ -16,11 +19,19 @@ enum t0_prescaler
     T0_PRESCALER_1024 = _BV(CS02) | _BV(CS00),
 };
  
+/**
+ * This function sets the prescaler
+ * @param ps The prescaler used
+ */
 static void t0_set_prescaler(enum t0_prescaler ps)
 {
     TCCR0B = ps;
 }
  
+/**
+ * Returns the prescaler rate.
+ * @param ps
+ */
 static unsigned short t0_get_prescaler_rate(enum t0_prescaler ps)
 {
     unsigned short rate;
@@ -47,12 +58,22 @@ static unsigned short t0_get_prescaler_rate(enum t0_prescaler ps)
     }
     return rate;
 }
- 
+
+/**
+ * No idea what this does. Sorry. So much for self-documenting code.
+ * @param d
+ * @param q
+ */
 static unsigned long div_round(unsigned long d, unsigned long q)
 {
     return (d + (q/2)) / q;
 }
- 
+
+/**
+ * Sets the timer.
+ * @param hz Herz
+ * @param timer_freq The timer frequency
+ */
 static void t0_set_ctc_a(unsigned long hz, unsigned long timer_freq)
 {
     OCR0A = div_round(timer_freq, hz*2) - 1;
@@ -61,6 +82,10 @@ static void t0_set_ctc_a(unsigned long hz, unsigned long timer_freq)
         | _BV(WGM01); // CTC
 }
  
+/**
+ * Starts the buzzer sound.
+ * @param freq The frequency
+ */
 void buzz(int freq)
 {
     unsigned long timer_freq;
@@ -72,6 +97,9 @@ void buzz(int freq)
     t0_set_ctc_a(freq, timer_freq);
 }
 
+/**
+ * Stops the buzzer.
+ */
 void stop_buzz()
 {
     OCR0A = 0;
